@@ -1,0 +1,6 @@
+BASE_DIR : data
+ZONE : System
+QUOTA_HARD_GB : 50
+QUOTA_SNAP : False
+SMB : isilon-smb
+NFS : isilon-nfs

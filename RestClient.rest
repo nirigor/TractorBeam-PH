@@ -1,0 +1,63 @@
+@rest-endpoint = http://localhost:8000/api
+@contentType = application/json
+
+## Storage ##
+###
+OPTIONS {{rest-endpoint}}/storage/
+
+###
+GET {{rest-endpoint}}/storage/
+
+###
+GET {{rest-endpoint}}/storage/
+    ?StorageId=1
+
+###
+POST {{rest-endpoint}}/storage/
+Content-Type: {{contentType}}
+
+{
+    "StorageName" : "isilon1",
+    "StorageType" : "PowerScale",
+    "StorageHostname" : "192.168.135.10",
+    "StorageUsername" : "root",
+    "StoragePassword" : "a",
+    "StoragePort" : "8080"
+}
+
+###
+DELETE {{rest-endpoint}}/storage/
+    ?StorageId=8
+
+###
+PATCH {{rest-endpoint}}/storage/
+    ?StorageId=1
+Content-Type: {{contentType}}
+
+{
+    "StoragePassword" : "a"
+}
+
+
+## Quota ##
+###
+OPTIONS {{rest-endpoint}}/quotas/
+
+###
+GET {{rest-endpoint}}/quotas/
+    ?StorageId=1
+
+###
+GET {{rest-endpoint}}/quotas/
+    ?StorageId=1
+    &QuotaId=7lEDAAEAAAAAAAAAAAAAQNsHAAAAAAAA
+
+###
+PATCH {{rest-endpoint}}/quotas/
+    ?StorageId=1
+    &QuotaId=7lEDAAEAAAAAAAAAAAAAQNsHAAAAAAAA
+Content-Type: {{contentType}}
+
+{
+    "QuotaHardLimit" : 50
+}
