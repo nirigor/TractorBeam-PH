@@ -9,7 +9,7 @@ from .storage import get_quotas, update_quota
 from .encrypt_util import encrypt
 
 from ProxyAPI.models import Storage
-from ProxyAPI.serializers import StorageSerializer
+from ProxyAPI.serializers import StorageSerializer, QuotaSerializer
 
 @api_view(['PATCH', 'GET'])
 def process_quota_request(request):
@@ -22,9 +22,10 @@ def process_quota_request(request):
 
         if (request.method == 'GET'):    
             response = get_quotas(StorageId, QuotaId)
-            if response.ok:
-                return Response(response.json())
-            return Response(response.text, status=response.status_code)
+            if response['ok']:
+                serializer = QuotaSerializer(response['data'], many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(response['data'], status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 
         elif (request.method == 'PATCH'):
             QuotaHardLimit = request.data['QuotaHardLimit'] if 'QuotaHardLimit' in request.data.keys() else ''
@@ -34,9 +35,11 @@ def process_quota_request(request):
             
             response = update_quota(StorageId, QuotaId, QuotaHardLimit)
 
-            if response.ok:
-                return Response(status=response.status_code)
-            return Response(response.text, status=response.status_code)
+            if response['ok']:
+                response = get_quotas(StorageId, QuotaId)
+                serializer = QuotaSerializer(response['data'], many=True)
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            return Response(response['data'], status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
     

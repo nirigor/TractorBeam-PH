@@ -10,3 +10,13 @@ class Storage(models.Model):
     StorageUsername = models.CharField(max_length=100)
     StoragePassword = models.CharField(max_length=255)
     StoragePort = models.IntegerField()
+
+class Quota(models.Model):
+    class Meta:
+        managed = False
+    StorageId = models.IntegerField()
+    QuotaId = models.CharField(primary_key=True, max_length=100)
+    QuotaPath = models.CharField(max_length=255)
+    QuotaType = models.CharField(max_length=10)
+    QuotaUsed = models.IntegerField()
+    QuotaHard = models.IntegerField()

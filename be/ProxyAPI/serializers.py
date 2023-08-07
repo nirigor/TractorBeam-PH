@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ProxyAPI.models import Storage
+from ProxyAPI.models import Storage, Quota
 
 class StorageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,3 +11,8 @@ class StorageSerializer(serializers.ModelSerializer):
                   'StorageUsername',
                   'StoragePassword',
                   'StoragePort')
+
+class QuotaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quota
+        fields = '__all__'
