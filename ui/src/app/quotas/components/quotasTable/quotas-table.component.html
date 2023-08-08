@@ -1,0 +1,41 @@
+<div *ngIf="dataSource.isLoading$ | async" class="loading">
+    <mat-spinner diameter=70 strokeWidth=5></mat-spinner>
+    <p class="mat-headline-4">Loading Data...</p>
+</div>
+
+<div [hidden]="dataSource.isLoading$ | async" class="table-container">
+    <div class="table">
+        <table 
+            mat-table 
+            matSort 
+            matSortActive="StorageId"
+            matSortDirection="asc"
+            matSortDisableClear
+            (matSortChange)="sortDirectoryQuotas($event)"
+            [dataSource]="dataSource">
+            <ng-container matColumnDef="StorageId">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> StorageId </th>
+                <td mat-cell *matCellDef="let element">{{element.StorageId}}</td>
+            </ng-container>
+        
+            <ng-container matColumnDef="QuotaPath">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> QuotaPath </th>
+                <td mat-cell *matCellDef="let element">{{element.QuotaPath}}</td>
+            </ng-container>
+        
+            <ng-container matColumnDef="QuotaUsed">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> QuotaUsed </th>
+                <td mat-cell *matCellDef="let element">{{element.QuotaUsed}}</td>
+            </ng-container>
+        
+            <ng-container matColumnDef="QuotaHard">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> QuotaHard </th>
+                <td mat-cell *matCellDef="let element">{{element.QuotaHard}}</td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>    
+    </div>
+</div>

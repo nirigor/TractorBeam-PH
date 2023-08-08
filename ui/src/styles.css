@@ -1,14 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
-:root {
-    --background-color: #7e57c2;
-}
-
-
 html, body { 
     height: 100%; 
 }
+
 body { 
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
-    background-color: var(--background-color);
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.loading p {
+    margin-top: 50px !important;
 }

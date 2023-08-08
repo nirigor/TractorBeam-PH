@@ -17,6 +17,5 @@ class Quota(models.Model):
     StorageId = models.IntegerField()
     QuotaId = models.CharField(primary_key=True, max_length=100)
     QuotaPath = models.CharField(max_length=255)
-    QuotaType = models.CharField(max_length=10)
     QuotaUsed = models.IntegerField()
     QuotaHard = models.IntegerField()

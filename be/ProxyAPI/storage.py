@@ -45,7 +45,6 @@ def get_quotas(StorageId, QuotaId):
                 data.append(Quota(StorageId=StorageId, 
                                   QuotaId=quota['id'], 
                                   QuotaPath=quota['path'], 
-                                  QuotaType=quota['type'], 
                                   QuotaUsed=quota['usage']['fslogical'], 
                                   QuotaHard=quota['thresholds']['hard']))
             response['data'] = data

@@ -1,0 +1,12 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+}
+
+.table {
+    width: 100%;
+    background-color: saddlebrown;
+}

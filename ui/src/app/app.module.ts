@@ -4,26 +4,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MainComponent } from './main/main.component';
-import { QuotaComponent } from './main/quota/quota.component';
+
 
 import { SharedService } from './shared.service';
 import { HttpClientModule } from '@angular/common/http';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
-
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { QuotaModule } from './quotas/quota.module';
+import { StorageModule } from './storages/storage.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
-    QuotaComponent,
-    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -31,12 +21,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     BrowserAnimationsModule,
     HttpClientModule,
 
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    MatInputModule,
-    MatFormFieldModule
+    QuotaModule,
+    StorageModule,
   ],
   providers: [
     SharedService
