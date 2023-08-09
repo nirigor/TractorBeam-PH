@@ -23,48 +23,45 @@ export class directoryQuotaDataSource extends DataSource<DirectoryQuotaInterface
         this.directoryQuotas$.complete();
     }
 
-    getDirectoryQuotas(StorageId: number, sort: Sort): void {
+    getDirectoryQuotas(StorageId: number, sort: Sort): void { 
         this.isLoading$.next(true);
-        let active: keyof DirectoryQuotaInterface = 'QuotaPath';
-        switch(sort.active) {
-            case 'StorageId':
-                active = 'StorageId';
-                break;
-            case 'QuotaPath':
-                active = 'QuotaPath';
-                break;
-            case 'QuotaUsed':
-                active = 'QuotaUsed';
-                break;
-            case 'QuotaHard':
-                active = 'QuotaHard';
-                break;
-            default:
-                active = 'QuotaPath';
-                break;
-        }
-
-        let data = this.QuotasService.SharedService.getKey('quotas');
-        if ( data == ''){
-            this.QuotasService.getDirectoryQuotas(StorageId).subscribe(data => {
-                if (sort.direction == 'asc') { 
-                    data.sort((a,b) => (a[active] > b[active]) ? 1 : -1) 
-                } else {
-                    data.sort((a,b) => (a[active] < b[active]) ? 1 : -1) 
-                }
+        let quotas = this.QuotasService.SharedService.getKey('quotas');
+        if (!quotas) {
+            this.QuotasService.getDirectoryQuotas(StorageId).subscribe(data => { 
+                data = this.sortDirectoryQuotas(data, sort);
                 this.directoryQuotas$.next(data);
                 this.QuotasService.SharedService.setKey('quotas', data);
                 this.isLoading$.next(false);
-            })
+            });
         } else {
-            if (sort.direction == 'asc') { 
-                data.sort((a: DirectoryQuotaInterface, b: DirectoryQuotaInterface) => (a[active] > b[active]) ? 1 : -1)
-            } else {
-                data.sort((a: DirectoryQuotaInterface, b: DirectoryQuotaInterface) => (a[active] < b[active]) ? 1 : -1)
-            }
+            let data = this.sortDirectoryQuotas(quotas, sort);
             this.directoryQuotas$.next(data);
             this.isLoading$.next(false);
         }
+    }
 
+    sortDirectoryQuotas(quotas: DirectoryQuotaInterface[], sort: Sort) : DirectoryQuotaInterface[]{
+        let sorted: DirectoryQuotaInterface[] = [];
+        if (sort.active && sort.direction != '') {
+            sorted = quotas.sort((a, b) => {
+                const isAsc = sort.direction === 'asc';
+                switch (sort.active) {
+                  case 'StorageId':
+                    return this.compare(a.StorageId, b.StorageId, isAsc);
+                  case 'QuotaPath':
+                    return this.compare(a.QuotaPath, b.QuotaPath, isAsc);
+                  case 'QuotaUsed':
+                    return this.compare(a.QuotaUsed, b.QuotaUsed, isAsc);
+                  case 'QuotaHard':
+                    return this.compare(a.QuotaHard, b.QuotaHard, isAsc);
+                  default:
+                    return this.compare(a.QuotaPath, b.QuotaPath, isAsc);
+                }
+            });
+        }
+        return sorted;
+    }
+    compare(a: number | string, b: number | string, isAsc: boolean) {
+        return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
 }
