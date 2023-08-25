@@ -1,12 +1,19 @@
+.container {
+    padding: 50px;
+}
+
 .table-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: scroll;
 }
 
 .table {
     width: 100%;
-    background-color: saddlebrown;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
 }

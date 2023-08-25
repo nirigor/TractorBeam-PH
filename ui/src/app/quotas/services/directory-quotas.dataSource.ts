@@ -14,30 +14,47 @@ export class directoryQuotaDataSource extends DataSource<DirectoryQuotaInterface
 
     directoryQuotas$ = new BehaviorSubject<DirectoryQuotaInterface[]>([]);
     isLoading$ = new BehaviorSubject<boolean>(false);
-
+    length = 0;
     connect(): Observable<DirectoryQuotaInterface[]> {
         return this.directoryQuotas$.asObservable();
     }
 
     disconnect(): void {
         this.directoryQuotas$.complete();
+        this.isLoading$.complete();
     }
 
-    getDirectoryQuotas(StorageId: number, sort: Sort): void { 
+    getDirectoryQuotas(StorageId: number, sort: Sort, filter: string, pageIndex: number, pageSize: number): void { 
         this.isLoading$.next(true);
         let quotas = this.QuotasService.SharedService.getKey('quotas');
         if (!quotas) {
             this.QuotasService.getDirectoryQuotas(StorageId).subscribe(data => { 
-                data = this.sortDirectoryQuotas(data, sort);
-                this.directoryQuotas$.next(data);
                 this.QuotasService.SharedService.setKey('quotas', data);
+                data = this.filter(data, filter);
+                data = this.sortDirectoryQuotas(data, sort);
+                this.length = data.length;
+                data = data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+                this.directoryQuotas$.next(data);
                 this.isLoading$.next(false);
             });
         } else {
-            let data = this.sortDirectoryQuotas(quotas, sort);
+            let data = this.filter(quotas, filter);
+            data = this.sortDirectoryQuotas(data, sort);
+            this.length = data.length;
+            data = data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
             this.directoryQuotas$.next(data);
             this.isLoading$.next(false);
         }
+    }
+
+    filter(quotas: DirectoryQuotaInterface[], filterValue: string): DirectoryQuotaInterface[] {
+        if (!filterValue) return quotas;
+        return quotas.filter(e =>
+            e.StorageId.toString().toLowerCase().includes(filterValue.trim().toLowerCase()) ||
+            e.QuotaPath.toLowerCase().includes(filterValue.trim().toLowerCase()) ||
+            e.QuotaUsed.toString().toLowerCase().includes(filterValue.trim().toLowerCase()) ||
+            e.QuotaHard.toString().toLowerCase().includes(filterValue.trim().toLowerCase())
+        );
     }
 
     sortDirectoryQuotas(quotas: DirectoryQuotaInterface[], sort: Sort) : DirectoryQuotaInterface[]{
@@ -61,6 +78,7 @@ export class directoryQuotaDataSource extends DataSource<DirectoryQuotaInterface
         }
         return sorted;
     }
+    
     compare(a: number | string, b: number | string, isAsc: boolean) {
         return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
