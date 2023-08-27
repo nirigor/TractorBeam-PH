@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { quotasTableComponent } from './quotas/components/quotasTable/quotas-table.component';
+import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'quotas', pathMatch: 'full' },
-  { path: 'quotas', component: quotasTableComponent }
+  { path: '', redirectTo: 'app-main', pathMatch: 'full' },
+  { path: 'app-main', component: MainComponent }
 ];
 
 @NgModule({

@@ -1,0 +1,44 @@
+.spacer {
+  flex: 1 1 auto;
+}
+  
+.sidenav-content {
+  padding: 10px;
+  min-height: 480px;
+}
+  
+.sidenav {
+  padding: 10px;
+  min-width: 300px;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+#nav-search-form-field {
+  margin-top: 20px;
+  & ::placeholder {
+    color: rgba(255, 255, 255, 0.50);
+  }
+  & .mdc-text-field__input {
+    color: rgba(255, 255, 255, 0.87);
+  }
+}
+
+#nav-list {
+  & .mat-mdc-list-item-unscoped-content {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    & .mat-icon {
+      width: 25px;
+    }
+    & .list-item-text {
+      font-weight: 500;
+      margin-left: 0.7rem;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <!-- NavBar Menu -->
+        <button mat-icon-button (click)="drawer.toggle();">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span style="margin-left: 0.5rem;">Tractor Beam</span>
+        <span class="spacer"></span>
+
+        <!-- Search -->
+        <mat-form-field id="nav-search-form-field" appearance="outline" class="dense-2">
+            <mat-icon matPrefix>search</mat-icon>
+            <input id="input" placeholder="Search" matInput (keyup)="applyFilter($event)">
+        </mat-form-field>
+        <span class="spacer"></span>
+        
+        <!-- Settings -->
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>settings</mat-icon>
+        </button>
+        
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="clearCache();">
+                <mat-icon>delete</mat-icon>
+                Clear Cache</button>
+        </mat-menu>
+
+        <!-- Logout -->
+        <button mat-icon-button>
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
+        
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-drawer-container autosize>
+    <mat-drawer #drawer class="sidenav" mode="over">
+        <mat-action-list id="nav-list">
+            <button mat-list-item (click)="changeScreen('dashboard'); drawer.toggle();">
+                <mat-icon>dashboard</mat-icon>
+                <span class="list-item-text">Dashboard</span>     
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-list-item (click)="changeScreen('quota'); drawer.toggle();">Quota</button>
+            <button mat-list-item (click)="changeScreen('storage'); drawer.toggle();">Storage</button>
+        </mat-action-list>
+    </mat-drawer>
+    <div class="sidenav-content">
+        <ng-container *ngIf="currentScreen == 'dashboard'">
+            <p>Dashboard</p>
+        </ng-container>
+        <ng-container *ngIf="currentScreen == 'quota'">
+            <quotas-table></quotas-table>
+        </ng-container>
+        <ng-container *ngIf="currentScreen == 'storage'">
+            <p>Storage</p>
+        </ng-container>
+    </div>
+</mat-drawer-container>

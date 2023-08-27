@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../../shared.service';
 
 @Pipe({
   name: 'storageName'

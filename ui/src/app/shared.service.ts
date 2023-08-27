@@ -37,4 +37,9 @@ export class SharedService {
     } 
     return ""
   }
+
+  clearAll() {
+    sessionStorage.clear();
+    localStorage.clear();
+  }
 }

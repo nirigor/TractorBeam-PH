@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { directoryQuotaDataSource } from "../../services/directory-quotas.dataSource";
-import { QuotasService } from "../../services/quotas.service";
+import { directoryQuotaDataSource } from "../services/directory-quotas.dataSource";
+import { QuotasService } from "../services/quotas.service";
 import { Sort } from "@angular/material/sort";
-import { PaginatorIntl } from "../../services/paginatorIntl.service";
-// import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { PaginatorIntl } from "../services/paginatorIntl.service";
 
 @Component({
     selector: 'quotas-table',
@@ -13,7 +12,7 @@ import { PaginatorIntl } from "../../services/paginatorIntl.service";
     providers: [{ provide : MatPaginatorIntl, useClass: PaginatorIntl }],
 })
 
-export class quotasTableComponent implements OnInit{
+export class quotasTableComponent implements OnInit{    
     readonly StorageId = 1;
     currentPage = 0;
     PageSize = 10;
@@ -22,7 +21,7 @@ export class quotasTableComponent implements OnInit{
 
     constructor(private QuotasService: QuotasService) {}
 
-    displayedColumns: string[] = ['StorageId', 'QuotaPath', 'QuotaUsed', 'QuotaHard'];
+    displayedColumns: string[] = ['StorageId', 'QuotaPath', 'QuotaUsed', 'QuotaHard', 'QuotaId'];
     
     
     dataSource = new directoryQuotaDataSource(this.QuotasService);
